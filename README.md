@@ -17,3 +17,4 @@ This project is being built for a final web development course.
 - **Backend**: PHP
 - **Database**: Mysql
 - **Authentication**: Session-based
+
