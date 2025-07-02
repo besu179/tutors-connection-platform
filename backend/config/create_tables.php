@@ -1,21 +1,20 @@
 <?php
-$host = 'localhost';
-$dbname = 'tutors_platform';
-$user = 'root';
-$pass = '';
-
-// Database configuration
-
 try {
-    $pdo = new PDO("mysql:host=$host", $user, $pass);
+    // Create PDO connection
+    $pdo = new PDO(
+        "mysql:host=localhost;dbname=tutors_platform",
+        "root",
+        ""
+    );
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    $sql = "CREATE DATABASE IF NOT EXISTS $dbname DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
+    // Create database if it doesn't exist
+    $sql = "CREATE DATABASE IF NOT EXISTS tutors_platform DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
     $pdo->exec($sql);
     echo "Database created successfully\n";
     
     // Use the database
-    $pdo->exec("USE $dbname");
+    $pdo->exec("USE tutors_platform");
 
     // Create tables
     $tables = [
