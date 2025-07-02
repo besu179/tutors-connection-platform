@@ -18,9 +18,3 @@ This project is being built for a final web development course.
 - **Database**: Mysql
 - **Authentication**: Session-based
 
-## 📁 Project Structure
-
-tutors-connection-platform/
-**├── backend/ # php 
-**├── frontend/ # HTML, CSS and Js
-**└── README.md
