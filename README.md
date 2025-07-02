@@ -21,6 +21,6 @@ This project is being built for a final web development course.
 ## 📁 Project Structure
 
 tutors-connection-platform/
-├── backend/ # php 
-├── frontend/ # HTML, CSS and Js
-└── README.md
+**├── backend/ # php 
+**├── frontend/ # HTML, CSS and Js
+**└── README.md
