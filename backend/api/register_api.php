@@ -1,0 +1,47 @@
+<?php
+require_once '../config/Database.php';
+require_once '../controllers/AuthController.php';
+
+header('Content-Type: application/json');
+
+$auth = new AuthController();
+
+// Check if request is POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(['error' => 'Method not allowed']);
+    exit;
+}
+
+// Get POST data
+$data = json_decode(file_get_contents('php://input'), true);
+
+if (!$data) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Invalid data format']);
+    exit;
+}
+
+// Validate required fields
+$required_fields = ['first_name', 'last_name', 'email', 'password', 'role'];
+foreach ($required_fields as $field) {
+    if (!isset($data[$field]) || empty($data[$field])) {
+        http_response_code(400);
+        echo json_encode(['error' => "$field is required"]);
+        exit;
+    }
+}
+
+// Register user
+try {
+    if ($auth->register($data)) {
+        http_response_code(200);
+        echo json_encode(['message' => 'Registration successful']);
+    } else {
+        http_response_code(400);
+        echo json_encode(['error' => 'Registration failed']);
+    }
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(['error' => $e->getMessage()]);
+}
