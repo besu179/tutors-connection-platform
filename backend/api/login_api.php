@@ -34,12 +34,10 @@ foreach ($required_fields as $field) {
 
 // Login user
 try {
-    if ($auth->login($data)) {
+    $result = $auth->login($data);
+    if ($result && isset($result['success']) && $result['success']) {
         http_response_code(200);
-        echo json_encode([
-            'message' => 'Login successful',
-            'token' => bin2hex(random_bytes(32))  // Temporary token for session
-        ]);
+        echo json_encode($result);
     } else {
         http_response_code(401);
         echo json_encode(['error' => 'Invalid credentials']);

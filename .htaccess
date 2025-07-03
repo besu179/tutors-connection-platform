@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# If the request is for an existing file or directory, serve it directly
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Route all /api/* requests to backend/routes/routes.php
+RewriteRule ^api/(.*)$ backend/routes/routes.php [QSA,L]

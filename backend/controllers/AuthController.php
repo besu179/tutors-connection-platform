@@ -46,7 +46,13 @@ class AuthController {
     }
 
     private function validateToken($token) {
+
         if (!isset($_SESSION['token']) || $_SESSION['token'] !== $token) {
+            return false;
+        }
+        return true;
+    }
+
     public function register($data) {
         // Create User instance
         $user = new User();
@@ -91,18 +97,18 @@ class AuthController {
 
             // Generate session token
             $token = bin2hex(random_bytes(32));
-            $_SESSION['user_id'] = $existingUser['id'];
+            $_SESSION['user_id'] = $existingUser['user_id'];
             $_SESSION['role'] = $existingUser['role'];
             $_SESSION['token'] = $token;
 
             // Update last login time
-            $user->updateLastLogin($existingUser['id']);
+            $user->updateLastLogin($existingUser['user_id']);
 
             return [
                 'success' => true,
                 'message' => 'Login successful',
                 'token' => $token,
-                'user_id' => $existingUser['id'],
+                'user_id' => $existingUser['user_id'],
                 'role' => $existingUser['role']
             ];
         } catch (Exception $e) {

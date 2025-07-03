@@ -1,13 +1,15 @@
 <?php
 class User {
     private $db;
-    private $user_id;
     private $role;
     private $valid_roles = ['tutor', 'parent', 'student'];
 
     public function __construct() {
         $this->db = Database::getInstance();
-        $this->db->set_charset("utf8mb4");
+        $conn = $this->db->getConnection();
+        if (method_exists($conn, 'set_charset')) {
+            $conn->set_charset("utf8mb4");
+        }
     }
 
     private function validateInput($data) {
@@ -78,7 +80,7 @@ class User {
 
     public function getUserById($id) {
         try {
-            $stmt = $this->db->prepare("SELECT * FROM users WHERE id = ?");
+            $stmt = $this->db->prepare("SELECT * FROM users WHERE user_id = ?");
             $stmt->bind_param("i", $id);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -96,7 +98,7 @@ class User {
 
     public function updateLastLogin($userId) {
         try {
-            $stmt = $this->db->prepare("UPDATE users SET last_login = NOW() WHERE id = ?");
+            $stmt = $this->db->prepare("UPDATE users SET last_login = NOW() WHERE user_id = ?");
             $stmt->bind_param("i", $userId);
             return $stmt->execute();
         } catch (Exception $e) {
@@ -107,8 +109,8 @@ class User {
     public function getUserProfile($userId) {
         try {
             $stmt = $this->db->prepare(
-                "SELECT first_name, last_name, email, role, created_at, last_login 
-                 FROM users WHERE id = ?"
+                "SELECT first_name, last_name, email, role, created_at, last_login \
+                 FROM users WHERE user_id = ?"
             );
             $stmt->bind_param("i", $userId);
             $stmt->execute();

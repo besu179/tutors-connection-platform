@@ -35,43 +35,14 @@ $uri = rtrim($uri, '/');
 
 // Handle API routes
 switch ($uri) {
+
     case '/api/register':
-        try {
-            $auth = new AuthController();
-            $data = json_decode(file_get_contents('php://input'), true);
-            if (!$data) {
-                http_response_code(400);
-                echo json_encode(['error' => 'Invalid request data']);
-                exit;
-            }
-            
-            $result = $auth->register($data);
-            http_response_code(200);
-            echo json_encode($result);
-        } catch (Exception $e) {
-            http_response_code(400);
-            echo json_encode(['error' => $e->getMessage()]);
-        }
-        break;
+        require_once __DIR__ . '/../api/register_api.php';
+        exit;
 
     case '/api/login':
-        try {
-            $auth = new AuthController();
-            $data = json_decode(file_get_contents('php://input'), true);
-            if (!$data) {
-                http_response_code(400);
-                echo json_encode(['error' => 'Invalid request data']);
-                exit;
-            }
-            
-            $result = $auth->login($data);
-            http_response_code(200);
-            echo json_encode($result);
-        } catch (Exception $e) {
-            http_response_code(401);
-            echo json_encode(['error' => $e->getMessage()]);
-        }
-        break;
+        require_once __DIR__ . '/../api/login_api.php';
+        exit;
 
     case '/api/logout':
         try {

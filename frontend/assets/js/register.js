@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
 
             try {
-                const response = await fetch('/api/register', {
+                const response = await fetch(window.location.origin + '/tutors-connection-platform/backend/api/register_api.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -95,16 +95,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     body: JSON.stringify(formData)
                 });
 
-                const data = await response.json();
+                let data;
+                try {
+                    data = await response.json();
+                } catch (jsonError) {
+                    showError('Server error: Invalid response format.');
+                    console.error('Invalid JSON:', jsonError);
+                    return;
+                }
 
-                if (response.ok) {
+                if (response.ok && data && data.success) {
                     showSuccess('Registration successful! Redirecting to login...');
                     setTimeout(() => window.location.href = 'login.html', 2000);
                 } else {
-                    showError(data.error || 'Registration failed');
+                    showError((data && data.error) || 'Registration failed');
                 }
             } catch (error) {
                 showError('An error occurred. Please try again.');
+                console.error('Network or server error:', error);
             } finally {
                 // Reset form state
                 form.classList.remove('loading');

@@ -34,9 +34,10 @@ foreach ($required_fields as $field) {
 
 // Register user
 try {
-    if ($auth->register($data)) {
+    $result = $auth->register($data);
+    if ($result && isset($result['success']) && $result['success']) {
         http_response_code(200);
-        echo json_encode(['message' => 'Registration successful']);
+        echo json_encode($result);
     } else {
         http_response_code(400);
         echo json_encode(['error' => 'Registration failed']);

@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
 
             try {
-                const response = await fetch('/api/login', {
+            const response = await fetch('/backend/api/login_api.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
