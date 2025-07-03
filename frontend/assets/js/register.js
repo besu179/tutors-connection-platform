@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
 
             try {
-                const response = await fetch(window.location.origin + '/tutors-connection-platform/backend/api/register_api.php', {
+                const response = await fetch(window.location.origin + '/tutors-connection-platform/backend/routes/routes.php/api/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
