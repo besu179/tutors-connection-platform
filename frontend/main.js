@@ -40,12 +40,32 @@ function createTutorCard(tutor) {
       </div>
       <div class="tutor-footer">
         <div class="tutor-price">${tutor.price || tutor.hourly_rate || ""}</div>
-        <button class="btn btn-outline">View Profile</button>
+        <button class="btn btn-outline" id="viewProfile${
+          tutor.id
+        }">View Profile</button>
       </div>
     </div>
   `;
   return card;
 }
+
+// Event delegation for dynamically created View Profile buttons
+document.addEventListener("DOMContentLoaded", function () {
+  const tutorsContainer = document.getElementById("tutorsContainer");
+  if (tutorsContainer) {
+    tutorsContainer.addEventListener("click", function (e) {
+      let target = e.target;
+      // Check if the clicked element is a View Profile button or inside one
+      const button = target.closest("button[id^='viewProfile']");
+      if (button) {
+        // Optionally, you can extract tutor id from button.id if needed
+        const tutorId = button.id.replace('viewProfile', '');
+        console.log('Tutor ID:', tutorId);
+        showTutorProfileOverlay();
+      }
+    });
+  }
+});
 
 // Helper to render star icons for rating (out of 5, supports half)
 function renderStars(rating) {
@@ -331,17 +351,10 @@ function showListOfSubjects() {
       const subjectsList = document.getElementById("subjectsList");
       if (subjectsList) {
         subjectsList.innerHTML = ""; // Clear existing items
-        let arr =
-          Array.isArray(data) && Array.isArray(data[0])
-            ? data[0]
-            : Array.isArray(data)
-            ? data
-            : [];
-        arr.forEach((subject) => {
+
+        data.forEach((subject) => {
           const li = document.createElement("li");
-          li.innerHTML = `<a href='#'>${
-            subject.name || subject.subject || subject
-          }</a>`;
+          li.innerHTML = `<a href='#'>${subject.name}</a>`;
           subjectsList.appendChild(li);
         });
       }
@@ -470,13 +483,8 @@ function showTutorProfileOverlay() {
     id: "",
     title: "Tutor profile",
     bodyHTML: `
-    <section class="section">
+    <section>
         <div class="container">
-            <div class="section-header">
-                <h2>Tutor Profile</h2>
-                <p>Detailed profile of our expert tutors</p>
-            </div>
-            
             <div class="tutor-profile">
                 <div class="profile-sidebar">
                     <div class="profile-avatar">

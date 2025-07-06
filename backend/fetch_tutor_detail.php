@@ -7,17 +7,17 @@ require_once 'Database.php';
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     global $conn;
 
-    $stmt = $conn->prepare("SELECT * FROM subjects");
+    $stmt = $conn->prepare("SELECT * FROM tutor_profiles where user_id = ?");
     $stmt->execute();
     $response = $stmt->get_result();
 
-    $subjects = [];
+    $tutor_detail = [];
 
     while ($row = $response->fetch_assoc()) {
-        $subjects[] = $row;
+        $tutor_detail[] = $row;
     }
 
-    echo json_encode($subjects);
+    echo json_encode($tutor_detail);
 
     $conn->close();
 }
