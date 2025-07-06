@@ -6,6 +6,7 @@
     <title>EduConnect | Modern Tutoring Platform</title>
     <link rel="stylesheet" href="style.css">    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 <body>
     <!-- Header -->
@@ -21,7 +22,7 @@
                     <li><a href="#" class="active">Home</a></li>
                     <li><a href="#">Tutors</a></li>
                     <li><a href="#">Subjects</a></li>
-                    <li><a href="#">How it Works</a></li>
+                    <li><a href="#" id="how-it-works">How it Works</a></li>
                     <li><a href="#">Pricing</a></li>
                 </ul>
                 
@@ -36,6 +37,41 @@
             </nav>
         </div>
     </header>
+
+    <!-- Swiper Slider Section -->
+    <section class="slider-section">
+      <div class="swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <img src="images/sliders/1.jpg" alt="Education" />
+            <div class="slide-overlay">
+              <h2>Expert Tutors for Every Subject</h2>
+              <p>Connect with top educators from around the world specialized in your field of study</p>
+              <a href="#" class="btn">Find Your Tutor</a>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <img src="images/sliders/2.jpg" alt="Learning" />
+            <div class="slide-overlay">
+              <h2>Personalized Learning Experience</h2>
+              <p>Customized lessons tailored to your learning style, pace, and academic goals</p>
+              <a href="#" class="btn">Start Learning</a>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <img src="images/sliders/3.jpg" alt="Success" />
+            <div class="slide-overlay">
+              <h2>Achieve Your Academic Goals</h2>
+              <p>Proven methods to help you excel in exams, assignments, and career development</p>
+              <a href="#" class="btn">View Success Stories</a>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+    </section>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -180,7 +216,7 @@
                         
                         <div class="tutor-footer">
                             <div class="tutor-price">$40/hr</div>
-                            <button class="btn btn-outline">View Profile</button>
+                            <button class="btn btn-outline" id="">View Profile</button>
                         </div>
                     </div>
                 </div>
@@ -189,7 +225,7 @@
     </section>
 
     <!-- Messages Section -->
-    <section class="section" style="background-color: #f0f4ff;">
+    <section class="section">
         <div class="container">
             <div class="section-header">
                 <h2>Messages</h2>
@@ -318,9 +354,9 @@
                     
                     <div class="profile-price">$45 / hour</div>
                     
-                    <div class="auth-buttons" style="margin-top: 30px;">
-                        <button class="btn btn-primary" style="width: 100%;">Book Session</button>
-                        <button class="btn btn-outline" style="width: 100%;">Send Message</button>
+                    <div class="auth-buttons">
+                        <button class="btn btn-primary">Book Session</button>
+                        <button class="btn btn-outline">Send Message</button>
                     </div>
                 </div>
                 
@@ -466,7 +502,7 @@
                     <a href="#">Forgot password?</a>
                 </div>
                 
-                <button class="btn btn-primary" style="width: 100%; margin-top: 20px;">Login</button>
+                <button class="btn btn-primary">Login</button>
                 
                 <div class="divider">
                     <span>Or continue with</span>
@@ -483,7 +519,7 @@
                     </button>
                 </div>
                 
-                <p style="text-align: center; margin-top: 20px;">
+                <p>
                     Don't have an account? <a href="#" id="switchToRegister">Register</a>
                 </p>
             </div>
@@ -515,7 +551,7 @@
                 
                 <div class="form-group">
                     <label for="registerRole">I am a</label>
-                    <select id="registerRole" style="width: 100%; padding: 12px 15px; border: 1px solid var(--light-gray); border-radius: var(--border-radius);">
+                    <select id="registerRole">
                         <option value="student">Student</option>
                         <option value="tutor">Tutor</option>
                         <option value="parent">Parent</option>
@@ -529,7 +565,7 @@
                     </div>
                 </div>
                 
-                <button class="btn btn-primary" style="width: 100%; margin-top: 20px;">Create Account</button>
+                <button class="btn btn-primary">Create Account</button>
                 
                 <div class="divider">
                     <span>Or continue with</span>
@@ -546,15 +582,29 @@
                     </button>
                 </div>
                 
-                <p style="text-align: center; margin-top: 20px;">
+                <p>
                     Already have an account? <a href="#" id="switchToLogin">Login</a>
                 </p>
             </div>
         </div>
     </div>
 
-    <script src="main.js">
-        
-    </script>
+    <!-- How It Works Overlay -->
+    <div id="howItWorksOverlay" class="how-it-works-overlay" style="display:none;">
+      <div class="how-it-works-content">
+        <button class="close-how-it-works">&times;</button>
+        <h2>How EduConnect Works</h2>
+        <ol>
+          <li><strong>Sign Up:</strong> Create a free account as a student, tutor, or parent.</li>
+          <li><strong>Find a Tutor:</strong> Browse and filter tutors by subject, rating, and availability.</li>
+          <li><strong>Book a Session:</strong> Schedule a session and communicate directly with your tutor.</li>
+          <li><strong>Learn & Succeed:</strong> Join your session, track your progress, and achieve your goals!</li>
+        </ol>
+      </div>
+    </div>
+    <!-- End How It Works Overlay -->
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
