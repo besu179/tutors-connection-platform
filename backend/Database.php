@@ -1,20 +1,20 @@
 <?php
-require_once 'Database.php';
 
-try {
-    // Get database instance
-    $db = Database::getInstance();
-    $connection = $db->getConnection();
-    
-    // Create database if it doesn't exist
-    $sql = "CREATE DATABASE IF NOT EXISTS tutors_platform DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
-    $db->query($sql);
-    
-    // Select the database
-    $db->query("USE tutors_platform");
+ $host = 'localhost';
+ $database = 'tutors_platform';
+ $user = 'root';
+ $password = '';
 
-    // Create users table
-    $sql = "CREATE TABLE IF NOT EXISTS users (
+$conn = new mysqli($host, $user, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Create tables
+$tables = [
+    "CREATE TABLE IF NOT EXISTS users (
         user_id INT PRIMARY KEY AUTO_INCREMENT,
         first_name VARCHAR(50) NOT NULL,
         last_name VARCHAR(50) NOT NULL,
@@ -26,11 +26,8 @@ try {
         address TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    )";
-    $db->query($sql);
-
-    // Create tutor_profiles table
-    $sql = "CREATE TABLE IF NOT EXISTS tutor_profiles (
+    )",
+    "CREATE TABLE IF NOT EXISTS tutor_profiles (
         tutor_id INT PRIMARY KEY,
         bio TEXT,
         education JSON,
@@ -38,11 +35,9 @@ try {
         hourly_rate DECIMAL(10,2),
         availability JSON,
         FOREIGN KEY (tutor_id) REFERENCES users(user_id) ON DELETE CASCADE
-    )";
-    $db->query($sql);
+    )",
 
-    // Create sessions table
-    $sql = "CREATE TABLE IF NOT EXISTS sessions (
+    "CREATE TABLE IF NOT EXISTS sessions (
         session_id INT PRIMARY KEY AUTO_INCREMENT,
         tutor_id INT,
         student_id INT,
@@ -52,11 +47,8 @@ try {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (tutor_id) REFERENCES users(user_id) ON DELETE SET NULL,
         FOREIGN KEY (student_id) REFERENCES users(user_id) ON DELETE SET NULL
-    )";
-    $db->query($sql);
-
-    // Create messages table
-    $sql = "CREATE TABLE IF NOT EXISTS messages (
+    )", 
+    "CREATE TABLE IF NOT EXISTS messages (
         message_id INT PRIMARY KEY AUTO_INCREMENT,
         sender_id INT,
         receiver_id INT,
@@ -64,34 +56,38 @@ try {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (sender_id) REFERENCES users(user_id) ON DELETE CASCADE,
         FOREIGN KEY (receiver_id) REFERENCES users(user_id) ON DELETE CASCADE
-    )";
-    $db->query($sql);
-
-    // Create website_reviews table
-    $sql = "CREATE TABLE IF NOT EXISTS website_reviews (
+    )",
+    "CREATE TABLE IF NOT EXISTS website_reviews (
         review_id INT PRIMARY KEY AUTO_INCREMENT,
         user_id INT,
         rating INT CHECK (rating BETWEEN 1 AND 5),
         review_text TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL
-    )";
-    $db->query($sql);
-
-    // Create contact_us table
-    $sql = "CREATE TABLE IF NOT EXISTS contact_us (
+    )",
+    "CREATE TABLE IF NOT EXISTS contact_us (
         contact_id INT PRIMARY KEY AUTO_INCREMENT,
         name VARCHAR(100),
         email VARCHAR(100),
         subject VARCHAR(255),
         message TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )";
+    )",
+    "CREATE TABLE IF NOT EXISTS reviews (
+        id INT(11) NOT NULL AUTO_INCREMENT,
+        tutor_id INT(11) DEFAULT NULL,
+        student_id INT(11) DEFAULT NULL,
+        rating INT(11) DEFAULT NULL,
+        comment TEXT DEFAULT NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id),
+        FOREIGN KEY (tutor_id) REFERENCES users(user_id) ON DELETE SET NULL,
+        FOREIGN KEY (student_id) REFERENCES users(user_id) ON DELETE SET NULL
+    )"
+];
 
-
-} catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
+foreach ($tables as $sql) {
+    if (!$conn->query($sql)) {
+        error_log("Table creation failed: " . $conn->error);
+    }
 }
-
-// Close the connection
-$pdo = null;

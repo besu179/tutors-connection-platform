@@ -3,38 +3,558 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutors Connection Platform</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <title>EduConnect | Modern Tutoring Platform</title>
+    <link rel="stylesheet" href="style.css">    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <header class="main-header">
-            <h1>Tutors Connection Platform</h1>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="login.html">Login</a></li>
-                    <li><a href="register.html">Register</a></li>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    EduConnect
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#">Tutors</a></li>
+                    <li><a href="#">Subjects</a></li>
+                    <li><a href="#">How it Works</a></li>
+                    <li><a href="#">Pricing</a></li>
                 </ul>
+                
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" id="loginBtn">Login</button>
+                    <button class="btn btn-primary" id="registerBtn">Register</button>
+                </div>
+                
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
             </nav>
-        </header>
+        </div>
+    </header>
 
-        <main class="main-content">
-            <div class="hero-section">
-                <h2>Welcome to Tutors Connection Platform</h2>
-                <p>Connect with the best tutors and find the perfect learning experience for you.</p>
-                <div class="cta-buttons">
-                    <a href="register.html" class="btn btn-primary">Get Started</a>
-                    <a href="login.html" class="btn btn-secondary">Login</a>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Find the Perfect <span>Tutor</span> for Your Learning Journey</h1>
+                    <p>Connect with expert tutors in any subject, anytime, anywhere. Personalized learning experiences tailored to your needs and goals.</p>
+                    <div class="auth-buttons">
+                        <button class="btn btn-primary">Find a Tutor</button>
+                        <button class="btn btn-outline">Become a Tutor</button>
+                    </div>
+                    
+                    <div class="features">
+                        <div class="feature">
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <h3>10,000+ Tutors</h3>
+                                <p>Experts in various fields</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-globe"></i>
+                            <div>
+                                <h3>Online & In-person</h3>
+                                <p>Flexible learning options</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-star"></i>
+                            <div>
+                                <h3>4.9/5 Rating</h3>
+                                <p>Verified student reviews</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1584697964358-3e14ca57658b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Tutoring Session">
                 </div>
             </div>
-        </main>
+        </div>
+    </section>
 
-        <footer class="main-footer">
-            <p>&copy; 2025 Tutors Connection Platform. All rights reserved.</p>
-        </footer>
+    <!-- Featured Tutors -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Top Rated Tutors</h2>
+                <p>Meet our most popular and highly-rated tutors who are ready to help you achieve your learning goals.</p>
+            </div>
+            
+            <div class="tutors-grid">
+                <!-- Tutor 1 -->
+                <div class="tutor-card">
+                    <div class="tutor-img">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Sarah Johnson">
+                    </div>
+                    <div class="tutor-info">
+                        <div class="tutor-header">
+                            <h3 class="tutor-name">Sarah Johnson</h3>
+                            <div class="tutor-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>4.7</span>
+                            </div>
+                        </div>
+                        <p>Mathematics & Physics</p>
+                        
+                        <div class="tutor-subjects">
+                            <span class="subject-tag">Calculus</span>
+                            <span class="subject-tag">Algebra</span>
+                            <span class="subject-tag">Physics</span>
+                        </div>
+                        
+                        <div class="tutor-footer">
+                            <div class="tutor-price">$45/hr</div>
+                            <button class="btn btn-outline">View Profile</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tutor 2 -->
+                <div class="tutor-card">
+                    <div class="tutor-img">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="David Chen">
+                    </div>
+                    <div class="tutor-info">
+                        <div class="tutor-header">
+                            <h3 class="tutor-name">David Chen</h3>
+                            <div class="tutor-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>5.0</span>
+                            </div>
+                        </div>
+                        <p>Computer Science & Programming</p>
+                        
+                        <div class="tutor-subjects">
+                            <span class="subject-tag">Python</span>
+                            <span class="subject-tag">JavaScript</span>
+                            <span class="subject-tag">Web Dev</span>
+                        </div>
+                        
+                        <div class="tutor-footer">
+                            <div class="tutor-price">$55/hr</div>
+                            <button class="btn btn-outline">View Profile</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tutor 3 -->
+                <div class="tutor-card">
+                    <div class="tutor-img">
+                        <img src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Maria Rodriguez">
+                    </div>
+                    <div class="tutor-info">
+                        <div class="tutor-header">
+                            <h3 class="tutor-name">Maria Rodriguez</h3>
+                            <div class="tutor-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>4.3</span>
+                            </div>
+                        </div>
+                        <p>Languages & Literature</p>
+                        
+                        <div class="tutor-subjects">
+                            <span class="subject-tag">Spanish</span>
+                            <span class="subject-tag">English</span>
+                            <span class="subject-tag">Writing</span>
+                        </div>
+                        
+                        <div class="tutor-footer">
+                            <div class="tutor-price">$40/hr</div>
+                            <button class="btn btn-outline">View Profile</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Messages Section -->
+    <section class="section" style="background-color: #f0f4ff;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Messages</h2>
+                <p>Communicate with your tutors and students in real-time</p>
+            </div>
+            
+            <div class="messages-container">
+                <div class="conversations">
+                    <div class="conversation-header">
+                        <h3>Conversations</h3>
+                    </div>
+                    <ul class="conversation-list">
+                        <li class="conversation-item active">
+                            <div class="conversation-avatar">
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Sarah Johnson">
+                            </div>
+                            <div class="conversation-info">
+                                <div class="conversation-name">Sarah Johnson</div>
+                                <div class="conversation-preview">Thanks for the session today! Let me know if you have any questions about the homework.</div>
+                            </div>
+                            <div class="conversation-time">2h ago</div>
+                        </li>
+                        <li class="conversation-item">
+                            <div class="conversation-avatar">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="David Chen">
+                            </div>
+                            <div class="conversation-info">
+                                <div class="conversation-name">David Chen</div>
+                                <div class="conversation-preview">I've scheduled our next session for Tuesday at 4pm. Does that work for you?</div>
+                            </div>
+                            <div class="conversation-time">Yesterday</div>
+                        </li>
+                        <li class="conversation-item">
+                            <div class="conversation-avatar">
+                                <img src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Maria Rodriguez">
+                            </div>
+                            <div class="conversation-info">
+                                <div class="conversation-name">Maria Rodriguez</div>
+                                <div class="conversation-preview">Here's the reading material for our next lesson...</div>
+                            </div>
+                            <div class="conversation-time">2 days ago</div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="chat-area">
+                    <div class="chat-header">
+                        <div class="conversation-avatar">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Sarah Johnson">
+                        </div>
+                        <div>
+                            <div class="conversation-name">Sarah Johnson</div>
+                            <div>Mathematics Tutor</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-messages">
+                        <div class="message received">
+                            Hi Alex! How are you doing with the calculus problems we discussed?
+                            <div class="message-time">10:15 AM</div>
+                        </div>
+                        
+                        <div class="message sent">
+                            Hi Sarah! I was able to solve the first few, but I'm stuck on problem 4. Could we go over it in our next session?
+                            <div class="message-time">10:18 AM</div>
+                        </div>
+                        
+                        <div class="message received">
+                            Absolutely! I'd be happy to help. How about tomorrow at 3pm?
+                            <div class="message-time">10:20 AM</div>
+                        </div>
+                        
+                        <div class="message sent">
+                            That works perfectly for me. Thanks!
+                            <div class="message-time">10:22 AM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input">
+                        <input type="text" placeholder="Type your message...">
+                        <button class="btn btn-primary">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tutor Profile -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Tutor Profile</h2>
+                <p>Detailed profile of our expert tutors</p>
+            </div>
+            
+            <div class="tutor-profile">
+                <div class="profile-sidebar">
+                    <div class="profile-avatar">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Sarah Johnson">
+                    </div>
+                    <h2 class="profile-name">Sarah Johnson</h2>
+                    <div class="profile-title">Mathematics & Physics Tutor</div>
+                    <div class="profile-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>4.7 (128 reviews)</span>
+                    </div>
+                    
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <div class="stat-value">5+</div>
+                            <div class="stat-label">Years Exp.</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">97%</div>
+                            <div class="stat-label">Success Rate</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">350+</div>
+                            <div class="stat-label">Students</div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-price">$45 / hour</div>
+                    
+                    <div class="auth-buttons" style="margin-top: 30px;">
+                        <button class="btn btn-primary" style="width: 100%;">Book Session</button>
+                        <button class="btn btn-outline" style="width: 100%;">Send Message</button>
+                    </div>
+                </div>
+                
+                <div class="profile-main">
+                    <div class="profile-section">
+                        <h3>About Me</h3>
+                        <p>I'm a passionate mathematics educator with a Master's degree in Applied Mathematics from Stanford University. I specialize in making complex mathematical concepts accessible and enjoyable for students of all levels.</p>
+                        <p>With over 5 years of tutoring experience, I've helped hundreds of students improve their grades, build confidence, and develop a genuine appreciation for mathematics and physics.</p>
+                    </div>
+                    
+                    <div class="profile-section">
+                        <h3>Education</h3>
+                        <div class="education-item">
+                            <div class="education-degree">M.S. Applied Mathematics</div>
+                            <div class="education-school">Stanford University</div>
+                            <div class="education-years">2015 - 2017</div>
+                        </div>
+                        <div class="education-item">
+                            <div class="education-degree">B.S. Mathematics & Physics</div>
+                            <div class="education-school">University of California, Berkeley</div>
+                            <div class="education-years">2011 - 2015</div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-section">
+                        <h3>Subjects</h3>
+                        <div class="tutor-subjects">
+                            <span class="subject-tag">Calculus</span>
+                            <span class="subject-tag">Algebra</span>
+                            <span class="subject-tag">Geometry</span>
+                            <span class="subject-tag">Trigonometry</span>
+                            <span class="subject-tag">Physics</span>
+                            <span class="subject-tag">Statistics</span>
+                            <span class="subject-tag">SAT Math</span>
+                            <span class="subject-tag">ACT Math</span>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-section">
+                        <h3>Availability</h3>
+                        <div class="availability-grid">
+                            <div class="availability-day">Mon</div>
+                            <div class="availability-day available">Tue</div>
+                            <div class="availability-day">Wed</div>
+                            <div class="availability-day available">Thu</div>
+                            <div class="availability-day available">Fri</div>
+                            <div class="availability-day available">Sat</div>
+                            <div class="availability-day">Sun</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>EduConnect</h3>
+                    <p>Connecting students with expert tutors for personalized learning experiences.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Tutors</a></li>
+                        <li><a href="#">How it Works</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Subjects</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Mathematics</a></li>
+                        <li><a href="#">Science</a></li>
+                        <li><a href="#">Languages</a></li>
+                        <li><a href="#">Computer Science</a></li>
+                        <li><a href="#">Test Preparation</a></li>
+                        <li><a href="#">Business</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links footer-contact">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>123 Education St, Learning City, 54321</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+1 (555) 123-4567</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>support@educonnect.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2023 EduConnect Tutoring Platform. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Login to Your Account</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="you@example.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password">
+                </div>
+                
+                <div class="form-footer">
+                    <div>
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <a href="#">Forgot password?</a>
+                </div>
+                
+                <button class="btn btn-primary" style="width: 100%; margin-top: 20px;">Login</button>
+                
+                <div class="divider">
+                    <span>Or continue with</span>
+                </div>
+                
+                <div class="social-login">
+                    <button class="social-login-btn">
+                        <i class="fab fa-google"></i>
+                        Google
+                    </button>
+                    <button class="social-login-btn">
+                        <i class="fab fa-facebook"></i>
+                        Facebook
+                    </button>
+                </div>
+                
+                <p style="text-align: center; margin-top: 20px;">
+                    Don't have an account? <a href="#" id="switchToRegister">Register</a>
+                </p>
+            </div>
+        </div>
     </div>
 
-    <script src="assets/js/main.js"></script>
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create an Account</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="registerName">Full Name</label>
+                    <input type="text" id="registerName" placeholder="John Doe">
+                </div>
+                
+                <div class="form-group">
+                    <label for="registerEmail">Email Address</label>
+                    <input type="email" id="registerEmail" placeholder="you@example.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" placeholder="Create a password">
+                </div>
+                
+                <div class="form-group">
+                    <label for="registerRole">I am a</label>
+                    <select id="registerRole" style="width: 100%; padding: 12px 15px; border: 1px solid var(--light-gray); border-radius: var(--border-radius);">
+                        <option value="student">Student</option>
+                        <option value="tutor">Tutor</option>
+                        <option value="parent">Parent</option>
+                    </select>
+                </div>
+                
+                <div class="form-footer">
+                    <div>
+                        <input type="checkbox" id="terms">
+                        <label for="terms">I agree to the <a href="#">Terms & Conditions</a></label>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" style="width: 100%; margin-top: 20px;">Create Account</button>
+                
+                <div class="divider">
+                    <span>Or continue with</span>
+                </div>
+                
+                <div class="social-login">
+                    <button class="social-login-btn">
+                        <i class="fab fa-google"></i>
+                        Google
+                    </button>
+                    <button class="social-login-btn">
+                        <i class="fab fa-facebook"></i>
+                        Facebook
+                    </button>
+                </div>
+                
+                <p style="text-align: center; margin-top: 20px;">
+                    Already have an account? <a href="#" id="switchToLogin">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js">
+        
+    </script>
 </body>
 </html>
