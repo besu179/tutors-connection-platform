@@ -4,6 +4,11 @@ document.addEventListener("DOMContentLoaded", populateUi);
 function createTutorCard(tutor) {
   const card = document.createElement("div");
   card.className = "tutor-card";
+  // Use user table fields if available
+  const name = tutor.first_name && tutor.last_name
+    ? tutor.first_name + " " + tutor.last_name
+    : tutor.name || tutor.user_name || "";
+  const profilePic = tutor.profile_picture_url || tutor.user_profile_picture || "";
   const subjArr = ["mathematics", "physics", "chemistry"];
   const subjects = Array.isArray(subjArr)
     ? subjArr
@@ -16,17 +21,11 @@ function createTutorCard(tutor) {
 
   card.innerHTML = `
     <div class="tutor-img">
-      <img src="${tutor.profile_picture_url || ""}" alt="${
-    tutor.first_name || tutor.name || ""
-  }">
+      <img src="${profilePic}" alt="${name}">
     </div>
     <div class="tutor-info">
       <div class="tutor-header">
-        <h3 class="tutor-name">${
-          tutor.first_name
-            ? tutor.first_name + " " + (tutor.last_name || "")
-            : tutor.name || ""
-        }</h3>
+        <h3 class="tutor-name">${name}</h3>
         <div class="tutor-rating">
           ${renderStars(tutor.rating || tutor.ratingValue || 0)}
           <span>${tutor.ratingValue || tutor.rating || ""}</span>
@@ -40,8 +39,8 @@ function createTutorCard(tutor) {
       </div>
       <div class="tutor-footer">
         <div class="tutor-price">${tutor.price || tutor.hourly_rate || ""}</div>
-        <button class="btn btn-outline" id="viewProfile${
-          tutor.id
+        <button class="btn btn-outline" id="viewProfile-${
+          tutor.user_id || tutor.tutor_id
         }">View Profile</button>
       </div>
     </div>
@@ -52,16 +51,26 @@ function createTutorCard(tutor) {
 // Event delegation for dynamically created View Profile buttons
 document.addEventListener("DOMContentLoaded", function () {
   const tutorsContainer = document.getElementById("tutorsContainer");
+
   if (tutorsContainer) {
     tutorsContainer.addEventListener("click", function (e) {
-      let target = e.target;
-      // Check if the clicked element is a View Profile button or inside one
-      const button = target.closest("button[id^='viewProfile']");
+      const button = e.target.closest("button[id^='viewProfile-']");
       if (button) {
-        // Optionally, you can extract tutor id from button.id if needed
-        const tutorId = button.id.replace('viewProfile', '');
-        console.log('Tutor ID:', tutorId);
-        showTutorProfileOverlay();
+        const tutorId = button.id.split("-")[1];
+        fetch(`http://localhost/tutors-connection-platform/backend/fetch_tutor_detail.php?tutor_id=${tutorId}`)
+          .then((res) => res.json())
+          .then((data) => {
+            // Support both array and object response
+            let tutor = Array.isArray(data) ? data[0] : data;
+            if (tutor) {
+              showTutorProfileOverlay(tutor);
+            } else {
+              console.error("No tutor data found for ID:", tutorId);
+            }
+          })
+          .catch((err) => {
+            console.error("Error fetching tutor details:", err);
+          });
       }
     });
   }
@@ -478,86 +487,74 @@ function showMessagesOverlay() {
   });
 }
 
-function showTutorProfileOverlay() {
+function showTutorProfileOverlay(tutor) {
+  // Defensive: handle both array/object
+  if (Array.isArray(tutor)) tutor = tutor[0];
+  if (!tutor) return;
+  // Subjects: try to handle array, string, or missing
+  let subjects = [];
+  if (Array.isArray(tutor.subjects)) {
+    subjects = tutor.subjects.map(s => typeof s === 'string' ? s : s.name || s.subject || '');
+  } else if (typeof tutor.subjects === 'string') {
+    subjects = tutor.subjects.split(',').map(s => s.trim()).filter(Boolean);
+  }
+  // Use user table fields if available
+  const name = tutor.first_name && tutor.last_name
+    ? tutor.first_name + " " + tutor.last_name
+    : tutor.name || tutor.user_name || '';
+  const profilePic = tutor.profile_picture_url || tutor.user_profile_picture || '';
   createModal({
-    id: "",
-    title: "Tutor profile",
+    id: "tutorProfileModal",
+    title: `Tutor Profile: ${name}`,
     bodyHTML: `
     <section>
         <div class="container">
             <div class="tutor-profile">
                 <div class="profile-sidebar">
                     <div class="profile-avatar">
-                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Sarah Johnson">
+                        <img src="${profilePic}" alt="${name}">
                     </div>
-                    <h2 class="profile-name">Sarah Johnson</h2>
-                    <div class="profile-title">Mathematics & Physics Tutor</div>
+                    <h2 class="profile-name">${name}</h2>
+                    <div class="profile-title">${tutor.title || tutor.description || ''}</div>
                     <div class="profile-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                        <span>4.7 (128 reviews)</span>
+                        ${renderStars(tutor.rating || tutor.ratingValue || 0)}
+                        <span>${tutor.ratingValue || tutor.rating || ''}</span>
                     </div>
-                    
                     <div class="profile-stats">
                         <div class="stat">
-                            <div class="stat-value">5+</div>
+                            <div class="stat-value">${tutor.years_experience || tutor.experience || '-'}</div>
                             <div class="stat-label">Years Exp.</div>
                         </div>
                         <div class="stat">
-                            <div class="stat-value">97%</div>
+                            <div class="stat-value">${tutor.success_rate || '-'}</div>
                             <div class="stat-label">Success Rate</div>
                         </div>
                         <div class="stat">
-                            <div class="stat-value">350+</div>
+                            <div class="stat-value">${tutor.students_count || tutor.students || '-'}</div>
                             <div class="stat-label">Students</div>
                         </div>
                     </div>
-                    
-                    <div class="profile-price">$45 / hour</div>
+                    <div class="profile-price">${tutor.price || tutor.hourly_rate ? `$${tutor.price || tutor.hourly_rate} / hour` : ''}</div>
                     <div class="auth-buttons">
                         <button class="btn btn-primary">Book Session</button>
                         <button class="btn btn-outline">Send Message</button>
                     </div>
                 </div>
-                
                 <div class="profile-main">
                     <div class="profile-section">
                         <h3>About Me</h3>
-                        <p>I'm a passionate mathematics educator with a Master's degree in Applied Mathematics from Stanford University. I specialize in making complex mathematical concepts accessible and enjoyable for students of all levels.</p>
-                        <p>With over 5 years of tutoring experience, I've helped hundreds of students improve their grades, build confidence, and develop a genuine appreciation for mathematics and physics.</p>
+                        <p>${tutor.bio || tutor.about || tutor.description || ''}</p>
                     </div>
-                    
                     <div class="profile-section">
                         <h3>Education</h3>
-                        <div class="education-item">
-                            <div class="education-degree">M.S. Applied Mathematics</div>
-                            <div class="education-school">Stanford University</div>
-                            <div class="education-years">2015 - 2017</div>
-                        </div>
-                        <div class="education-item">
-                            <div class="education-degree">B.S. Mathematics & Physics</div>
-                            <div class="education-school">University of California, Berkeley</div>
-                            <div class="education-years">2011 - 2015</div>
-                        </div>
+                        <div class="education-item">${tutor.education || 'Not specified'}</div>
                     </div>
-                    
                     <div class="profile-section">
                         <h3>Subjects</h3>
                         <div class="tutor-subjects">
-                            <span class="subject-tag">Calculus</span>
-                            <span class="subject-tag">Algebra</span>
-                            <span class="subject-tag">Geometry</span>
-                            <span class="subject-tag">Trigonometry</span>
-                            <span class="subject-tag">Physics</span>
-                            <span class="subject-tag">Statistics</span>
-                            <span class="subject-tag">SAT Math</span>
-                            <span class="subject-tag">ACT Math</span>
+                          ${subjects.map(subj => `<span class="subject-tag">${subj}</span>`).join('')}
                         </div>
                     </div>
-                    
                     <div class="profile-section">
                         <h3>Availability</h3>
                         <div class="availability-grid">
@@ -574,7 +571,6 @@ function showTutorProfileOverlay() {
             </div>
         </div>
     </section>
-
     `,
   });
 }

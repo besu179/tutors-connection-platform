@@ -7,7 +7,12 @@ require_once 'Database.php';
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     global $conn;
 
-    $stmt = $conn->prepare("SELECT * FROM tutor_profiles where user_id = ?");
+    // Fix: use tutor_id instead of user_id
+    $stmt = $conn->prepare("SELECT * FROM tutor_profiles WHERE tutor_id = ?");
+    $stmt->bind_param("i", $tutor_id);
+
+    $tutor_id = $_GET['tutor_id'] ?? null;
+
     $stmt->execute();
     $response = $stmt->get_result();
 

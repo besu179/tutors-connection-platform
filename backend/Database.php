@@ -112,7 +112,14 @@ $tables = [
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (tutor_id) REFERENCES users(user_id) ON DELETE SET NULL,
         FOREIGN KEY (student_id) REFERENCES users(user_id) ON DELETE SET NULL
-    )"
+    )",
+    "CREATE TABLE IF NOT EXISTS ratings_summary (
+        tutor_id INT PRIMARY KEY,
+        average_rating DECIMAL(3,2) DEFAULT 0,
+        total_reviews INT DEFAULT 0,
+        FOREIGN KEY (tutor_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+"
 ];
 
 // Execute each table creation
@@ -121,4 +128,3 @@ foreach ($tables as $sql) {
         error_log("Table creation failed: " . $conn->error);
     }
 }
-
