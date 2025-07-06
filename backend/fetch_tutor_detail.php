@@ -7,17 +7,22 @@ require_once 'Database.php';
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     global $conn;
 
-    $stmt = $conn->prepare("SELECT * FROM users WHERE role='tutor' ");
+    // Fix: use tutor_id instead of user_id
+    $stmt = $conn->prepare("SELECT * FROM tutor_profiles WHERE tutor_id = ?");
+    $stmt->bind_param("i", $tutor_id);
+
+    $tutor_id = $_GET['tutor_id'] ?? null;
+
     $stmt->execute();
     $response = $stmt->get_result();
 
-    $subjects = [];
+    $tutor_detail = [];
 
     while ($row = $response->fetch_assoc()) {
-        $subjects[] = $row;
+        $tutor_detail[] = $row;
     }
 
-    echo json_encode($subjects);
+    echo json_encode($tutor_detail);
 
     $conn->close();
 }
