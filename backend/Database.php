@@ -3,8 +3,6 @@
 header('Access-Control-Allow-Origin: http://127.0.0.1:5500');
 
 
-
-
 $host = 'localhost';
 $database = 'tutors_platform';
 $user = 'root';
@@ -124,8 +122,3 @@ foreach ($tables as $sql) {
     }
 }
 
-echo json_encode([
-    'status' => 'success',
-    'message' => 'Database and tables created successfully.'
-]);
-$conn->close();

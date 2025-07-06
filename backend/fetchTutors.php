@@ -7,7 +7,7 @@ require_once 'Database.php';
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     global $conn;
 
-    $stmt = $conn->prepare("SELECT * FROM subjects");
+    $stmt = $conn->prepare("SELECT * FROM users WHERE role='tutor' ");
     $stmt->execute();
     $response = $stmt->get_result();
 

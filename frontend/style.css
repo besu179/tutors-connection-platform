@@ -1,3 +1,48 @@
+/* How It Works Overlay extracted styles */
+.howitworks-list {
+  padding-left: 20px;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 0;
+}
+
+.howitworks-benefits {
+  margin-top: 25px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+.howitworks-benefits h4 {
+  margin-bottom: 15px;
+  color: #4361ee;
+}
+.howitworks-benefits-list {
+  columns: 2;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.howitworks-benefits-list li {
+  margin-bottom: 10px;
+  break-inside: avoid;
+}
+.howitworks-benefits-list i.fas.fa-check {
+  color: #4361ee;
+  margin-right: 8px;
+}
+.howitworks-cta {
+  text-align: center;
+  margin-top: 30px;
+}
+.howitworks-cta .btn.btn-primary {
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  background: #4361ee;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
 :root {
   --primary: #4361ee;
   --primary-dark: #3a56d4;
