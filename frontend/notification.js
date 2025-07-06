@@ -48,18 +48,27 @@ export function showConfirmation(message, callback) {
             <div class="dialog">
                 <div class="dialog-header">
                     <div class="dialog-title">Confirmation</div>
-                    <button class="close-dialog" onclick="closeDialog()">&times;</button>
+                    <button class="close-dialog">&times;</button>
                 </div>
                 <div class="dialog-body">
                     <p class="dialog-message" id="dialogMessage">Are you sure you want to perform this action?</p>
                 </div>
                 <div class="dialog-footer">
-                    <button class="dialog-btn cancel" onclick="closeDialog()">Cancel</button>
-                    <button class="dialog-btn confirm" onclick="confirmAction()">Confirm</button>
+                    <button class="dialog-btn cancel">Cancel</button>
+                    <button class="dialog-btn confirm">Confirm</button>
                 </div>
             </div>
         `;
         document.body.appendChild(overlay);
+        
+        // Add event listeners
+        const closeBtn = overlay.querySelector('.close-dialog');
+        const cancelBtn = overlay.querySelector('.dialog-btn.cancel');
+        const confirmBtn = overlay.querySelector('.dialog-btn.confirm');
+        
+        closeBtn.addEventListener('click', closeDialog);
+        cancelBtn.addEventListener('click', closeDialog);
+        confirmBtn.addEventListener('click', confirmAction);
     }
     document.getElementById('dialogMessage').textContent = message;
     overlay.classList.add('active');

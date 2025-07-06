@@ -50,7 +50,16 @@ $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 $stmt = $conn->prepare('INSERT INTO users (first_name, last_name, email, password, role) VALUES (?, ?, ?, ?, ?)');
 $stmt->bind_param('sssss', $first_name, $last_name, $email, $hashed_password, $role);
 if ($stmt->execute()) {
-    echo json_encode(['success' => true, 'message' => 'Registration successful.']);
+    $user_id = $conn->insert_id;
+    // Return user data for auto-login (excluding password)
+    $user_data = [
+        'user_id' => $user_id,
+        'first_name' => $first_name,
+        'last_name' => $last_name,
+        'email' => $email,
+        'role' => $role
+    ];
+    echo json_encode(['success' => true, 'message' => 'Registration successful!', 'user' => $user_data]);
 } else {
     echo json_encode(['success' => false, 'message' => 'Registration failed. Please try again.']);
 }

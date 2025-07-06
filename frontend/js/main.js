@@ -4,7 +4,7 @@ import { renderStars } from './renderStars.js';
 import { showTutorProfileOverlay } from './showTutorProfileOverlay.js';
 import { setupHamburgerMenu } from './hamburger.js';
 import { setupSwiper } from './swiperInit.js';
-import { showRegisterModal, showLoginModal } from './modalsRegisterLogin.js';
+import { showRegisterModal, showLoginModal, updateAuthUI } from './modalsRegisterLogin.js';
 import { showHowItWorksOverlay, showHowPricingWorksOverlay } from './howItWorks.js';
 import { showMessagesOverlay } from './messagesOverlay.js';
 import { showListOfSubjects } from './subjects.js';
