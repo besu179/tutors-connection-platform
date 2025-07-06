@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const button = e.target.closest("button[id^='viewProfile-']");
       if (button) {
         const tutorId = button.id.split("-")[1];
-        fetch(`http://localhost/tutors-connection-platform/backend/fetch_tutor_detail.php?tutor_id=${tutorId}`)
+        fetch(`http://localhost/tutors-connection-platform/backend/fetchTutors.php?tutor_id=${tutorId}`)
           .then((res) => res.json())
           .then((data) => {
             // Support both array and object response
@@ -574,3 +574,4 @@ function showTutorProfileOverlay(tutor) {
     `,
   });
 }
+fetch(`http://localhost/tutors-connection-platform/backend/fetchTutors.php?tutor_id=${tutorId}`)
