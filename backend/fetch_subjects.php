@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $subjects[] = $row;
     }
 
-    echo json_encode(["found" => $subjects]);
+    echo json_encode([$subjects]);
 
     $conn->close();
 }

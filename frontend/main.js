@@ -2,33 +2,44 @@ document.addEventListener("DOMContentLoaded", populateUi);
 
 // Dynamically create a tutor card from an object
 function createTutorCard(tutor) {
-  const card = document.createElement('div');
-  card.className = 'tutor-card';
-    const subjArr = ['mathematics', 'physics', "chemistry"];
+  const card = document.createElement("div");
+  card.className = "tutor-card";
+  const subjArr = ["mathematics", "physics", "chemistry"];
   const subjects = Array.isArray(subjArr)
     ? subjArr
-    : typeof subjArr === 'string' && subjArr
-      ? subjArr.split(',').map(s => s.trim()).filter(Boolean)
-      : [];
+    : typeof subjArr === "string" && subjArr
+    ? subjArr
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+    : [];
 
   card.innerHTML = `
     <div class="tutor-img">
-      <img src="${tutor.profile_picture_url || ''}" alt="${tutor.first_name || tutor.name || ''}">
+      <img src="${tutor.profile_picture_url || ""}" alt="${
+    tutor.first_name || tutor.name || ""
+  }">
     </div>
     <div class="tutor-info">
       <div class="tutor-header">
-        <h3 class="tutor-name">${tutor.first_name ? tutor.first_name + ' ' + (tutor.last_name || '') : (tutor.name || '')}</h3>
+        <h3 class="tutor-name">${
+          tutor.first_name
+            ? tutor.first_name + " " + (tutor.last_name || "")
+            : tutor.name || ""
+        }</h3>
         <div class="tutor-rating">
           ${renderStars(tutor.rating || tutor.ratingValue || 0)}
-          <span>${tutor.ratingValue || tutor.rating || ''}</span>
+          <span>${tutor.ratingValue || tutor.rating || ""}</span>
         </div>
       </div>
-      <p>${tutor.description || ''}</p>
+      <p>${tutor.description || ""}</p>
       <div class="tutor-subjects">
-        ${subjects.map(subj => `<span class="subject-tag">${subj}</span>`).join('')}
+        ${subjects
+          .map((subj) => `<span class="subject-tag">${subj}</span>`)
+          .join("")}
       </div>
       <div class="tutor-footer">
-        <div class="tutor-price">${tutor.price || tutor.hourly_rate || ''}</div>
+        <div class="tutor-price">${tutor.price || tutor.hourly_rate || ""}</div>
         <button class="btn btn-outline">View Profile</button>
       </div>
     </div>
@@ -43,7 +54,7 @@ function renderStars(rating) {
   const empty = 5 - full - half;
   return (
     '<i class="fas fa-star"></i>'.repeat(full) +
-    (half ? '<i class="fas fa-star-half-alt"></i>' : '') +
+    (half ? '<i class="fas fa-star-half-alt"></i>' : "") +
     '<i class="far fa-star"></i>'.repeat(empty)
   );
 }
@@ -175,18 +186,28 @@ function showRegisterModal() {
   });
 }
 
-// How It Works Overlay Example
-function showHowItWorksOverlay() {
+// How PPricing Works Overlay
+const howPricingWorksOverlay = document.getElementById(
+  "howPricingWorksOverlay"
+);
+if (howPricingWorksOverlay) {
+  howPricingWorksOverlay.onclick = showHowPricingWorksOverlay;
+}
+function showHowPricingWorksOverlay() {
   createModal({
-    id: "howItWorksOverlay",
-    title: "How EduConnect Works",
+    id: "howPricingWorksOverlay",
+    title: "How Pricing Works",
     bodyHTML: `
-      <ol>
-        <li><strong>Sign Up:</strong> Create a free account as a student, tutor, or parent.</li>
-        <li><strong>Find a Tutor:</strong> Browse and filter tutors by subject, rating, and availability.</li>
-        <li><strong>Book a Session:</strong> Schedule a session and communicate directly with your tutor.</li>
-        <li><strong>Learn & Succeed:</strong> Join your session, track your progress, and achieve your goals!</li>
-      </ol>
+      <div>
+        <p>
+          Tutors set their own hourly rates. You pay only for the sessions you book—no hidden fees or subscriptions. Payments are securely processed online before each session.
+        </p>
+        <ul>
+          <li><strong>Transparent pricing:</strong> See tutor rates up front.</li>
+          <li><strong>Pay as you go:</strong> Only pay for what you use.</li>
+          <li><strong>Secure checkout:</strong> All payments are protected.</li>
+        </ul>
+      </div>
     `,
   });
 }
@@ -277,44 +298,59 @@ function createLoginModal() {
 // Usage: createLoginModal();
 // Then you can add event listeners as usual
 
- function populateUi() {
-
+function populateUi() {
   fetch("http://localhost/tutors-connection-platform/backend/fetchTutors.php")
     .then((res) => res.json())
     .then((data) => {
-        const tutorsContainer = document.getElementById("tutorsContainer");
-        if (tutorsContainer) {
-            numOfTutors = data.length;
-            
-            for (let i = 0; 0 < 7; i++) {       
-                const random = data[i];
-                const tutorCard = createTutorCard(random);
-                tutorsContainer.appendChild(tutorCard);
-                
-            };
-            }
+      const tutorsContainer = document.getElementById("tutorsContainer");
+      if (tutorsContainer) {
+        numOfTutors = data.length;
+
+        for (let i = 0; i < 7; i++) {
+          const random = data[Math.floor(Math.random() * numOfTutors)];
+          const tutorCard = createTutorCard(random);
+          tutorsContainer.appendChild(tutorCard);
+        }
+      }
     })
     .catch((err) => {
       console.error("Error fetching tutors:", err);
     });
-};
+}
 document
   .getElementById("fetchSubjects")
-  .addEventListener("click", function (e) {
-    e.preventDefault(); // prevent page reload
+  .addEventListener("click", showListOfSubjects);
 
-    fetch(
-      "http://localhost/tutors-connection-platform/backend/fetch_subjects.php"
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.error("Error fetching subjects:", err);
-      });
-    createLoginModal();
-  });
+function showListOfSubjects() {
+  fetch(
+    "http://localhost/tutors-connection-platform/backend/fetch_subjects.php"
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      const subjectsList = document.getElementById("subjectsList");
+      if (subjectsList) {
+        subjectsList.innerHTML = ""; // Clear existing items
+        let arr =
+          Array.isArray(data) && Array.isArray(data[0])
+            ? data[0]
+            : Array.isArray(data)
+            ? data
+            : [];
+        arr.forEach((subject) => {
+          const li = document.createElement("li");
+          li.innerHTML = `<a href='#'>${
+            subject.name || subject.subject || subject
+          }</a>`;
+          subjectsList.appendChild(li);
+        });
+      }
+    })
+    .catch((err) => {
+      console.error("Error fetching subjects:", err);
+    });
+  createLoginModal();
+}
 
 function showHowItWorksOverlay() {
   createModal({
@@ -534,5 +570,3 @@ function showTutorProfileOverlay() {
     `,
   });
 }
-
-
