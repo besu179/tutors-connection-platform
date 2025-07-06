@@ -1,0 +1,102 @@
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 350px;
+    width: 100%;
+    pointer-events: none;
+}
+.notification {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    transform: translateX(400px);
+    opacity: 0;
+    animation: slideIn 0.5s forwards, fadeOut 0.5s forwards 4s;
+    position: relative;
+    overflow: hidden;
+    z-index: 10000;
+    pointer-events: auto;
+}
+.notification::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 6px;
+    height: 100%;
+}
+.notification.success::before { background: #06d6a0; }
+.notification.error::before { background: #ef476f; }
+.notification.warning::before { background: #ffd166; }
+.notification.info::before { background: #118ab2; }
+.notification.primary::before { background: #4361ee; }
+.notification-icon { font-size: 1.8rem; }
+.notification.success .notification-icon { color: #06d6a0; }
+.notification.error .notification-icon { color: #ef476f; }
+.notification.warning .notification-icon { color: #ffd166; }
+.notification.info .notification-icon { color: #118ab2; }
+.notification.primary .notification-icon { color: #4361ee; }
+.notification-content { flex: 1; }
+.notification-title { font-weight: 600; font-size: 1.2rem; margin-bottom: 5px; }
+.notification-message { color: #555; line-height: 1.5; }
+.close-notification { background: none; border: none; color: #999; font-size: 1.2rem; cursor: pointer; transition: all 0.3s ease; padding: 5px; }
+.close-notification:hover { color: #333; }
+@keyframes slideIn { to { transform: translateX(0); opacity: 1; } }
+@keyframes fadeOut { to { opacity: 0; transform: translateY(-20px); } }
+.dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10001;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+.dialog-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+.dialog {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    width: 90%;
+    max-width: 500px;
+    overflow: hidden;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+}
+.dialog-overlay.active .dialog { transform: scale(1); }
+.dialog-header {
+    padding: 20px;
+    background: #4361ee;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.dialog-title { font-size: 1.5rem; font-weight: 600; }
+.close-dialog { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; padding: 5px; }
+.dialog-body { padding: 25px; }
+.dialog-message { font-size: 1.1rem; line-height: 1.6; color: #333; }
+.dialog-footer { padding: 20px; display: flex; justify-content: flex-end; gap: 15px; }
+.dialog-btn { padding: 12px 25px; border: none; border-radius: 50px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.3s ease; min-width: 100px; }
+.dialog-btn.cancel { background: #e9ecef; color: #495057; }
+.dialog-btn.cancel:hover { background: #dee2e6; }
+.dialog-btn.confirm { background: #4361ee; color: white; }
+.dialog-btn.confirm:hover { background: #3a56d4; }
