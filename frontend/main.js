@@ -99,8 +99,10 @@ function showRegisterModal() {
     title: "Create an Account",
     bodyHTML: `
       <div class="form-group">
-        <label for="registerName">Full Name</label>
-        <input type="text" id="registerName" placeholder="John Doe">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" placeholder="John Doe">
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" placeholder="John Doe">
       </div>
       <div class="form-group">
         <label for="registerEmail">Email Address</label>
@@ -118,19 +120,8 @@ function showRegisterModal() {
           <option value="parent">Parent</option>
         </select>
       </div>
-      <div class="form-footer">
-        <div>
-          <input type="checkbox" id="terms">
-          <label for="terms">I agree to the <a href="#">Terms & Conditions</a></label>
-        </div>
-      </div>
       <button class="btn btn-primary">Create Account</button>
-      <div class="divider"><span>Or continue with</span></div>
-      <div class="social-login">
-        <button class="social-login-btn"><i class="fab fa-google"></i>Google</button>
-        <button class="social-login-btn"><i class="fab fa-facebook"></i>Facebook</button>
-      </div>
-      <p>Already have an account? <a href="#" id="switchToLogin">Login</a></p>
+
     `,
   });
 }
@@ -175,20 +166,7 @@ function showLoginModal() {
         <label for="loginPassword">Password</label>
         <input type="password" id="loginPassword" placeholder="Enter your password">
       </div>
-      <div class="form-footer">
-        <div>
-          <input type="checkbox" id="remember">
-          <label for="remember">Remember me</label>
-        </div>
-        <a href="#">Forgot password?</a>
-      </div>
       <button class="btn btn-primary">Login</button>
-      <div class="divider"><span>Or continue with</span></div>
-      <div class="social-login">
-        <button class="social-login-btn"><i class="fab fa-google"></i>Google</button>
-        <button class="social-login-btn"><i class="fab fa-facebook"></i>Facebook</button>
-      </div>
-      <p>Don't have an account? <a href="#" id="switchToRegister">Register</a></p>
     `,
   });
 }
