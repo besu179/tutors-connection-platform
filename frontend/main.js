@@ -1,49 +1,3 @@
-// Modal functionality
-const loginModal = document.getElementById("loginModal");
-const registerModal = document.getElementById("registerModal");
-const loginBtn = document.getElementById("loginBtn");
-const registerBtn = document.getElementById("registerBtn");
-const closeButtons = document.querySelectorAll(".close-modal");
-const switchToRegister = document.getElementById("switchToRegister");
-const switchToLogin = document.getElementById("switchToLogin");
-
-loginBtn.addEventListener("click", () => {
-  loginModal.classList.add("active");
-});
-
-registerBtn.addEventListener("click", () => {
-  registerModal.classList.add("active");
-});
-
-closeButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    loginModal.classList.remove("active");
-    registerModal.classList.remove("active");
-  });
-});
-
-switchToRegister.addEventListener("click", (e) => {
-  e.preventDefault();
-  loginModal.classList.remove("active");
-  registerModal.classList.add("active");
-});
-
-switchToLogin.addEventListener("click", (e) => {
-  e.preventDefault();
-  registerModal.classList.remove("active");
-  loginModal.classList.add("active");
-});
-
-// Close modal when clicking outside
-window.addEventListener("click", (e) => {
-  if (e.target === loginModal) {
-    loginModal.classList.remove("active");
-  }
-  if (e.target === registerModal) {
-    registerModal.classList.remove("active");
-  }
-});
-
 // Hamburger menu functionality
 const hamburger = document.querySelector(".hamburger");
 const navLinks = document.querySelector(".nav-links");
@@ -110,22 +64,182 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// How It Works overlay logic
-const howItWorksBtn = document.getElementById('how-it-works');
-const howItWorksOverlay = document.getElementById('howItWorksOverlay');
+// Utility to create and show a modal overlay
+function createModal({ id, title, bodyHTML }) {
+  // Remove existing modal with same id
+  const existing = document.getElementById(id);
+  if (existing) existing.remove();
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.id = id;
+  modal.innerHTML = `
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>${title}</h3>
+        <button class="close-modal">&times;</button>
+      </div>
+      <div class="modal-body">${bodyHTML}</div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  // Show modal
+  modal.classList.add('active');
+  // Close logic
+  modal.querySelector('.close-modal').onclick = () => modal.remove();
+  modal.onclick = e => { if (e.target === modal) modal.remove(); };
+  return modal;
+}
 
-if (howItWorksBtn && howItWorksOverlay) {
-  howItWorksBtn.addEventListener('click', function(e) {
-    e.preventDefault();
-    howItWorksOverlay.style.display = 'flex';
-  });
-  howItWorksOverlay.querySelector('.close-how-it-works').addEventListener('click', function() {
-    howItWorksOverlay.style.display = 'none';
-  });
-  // Optional: close overlay when clicking outside the content
-  howItWorksOverlay.addEventListener('click', function(e) {
-    if (e.target === howItWorksOverlay) {
-      howItWorksOverlay.style.display = 'none';
-    }
+// Register Modal Example
+function showRegisterModal() {
+  createModal({
+    id: 'registerModal',
+    title: 'Create an Account',
+    bodyHTML: `
+      <div class="form-group">
+        <label for="registerName">Full Name</label>
+        <input type="text" id="registerName" placeholder="John Doe">
+      </div>
+      <div class="form-group">
+        <label for="registerEmail">Email Address</label>
+        <input type="email" id="registerEmail" placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label for="registerPassword">Password</label>
+        <input type="password" id="registerPassword" placeholder="Create a password">
+      </div>
+      <div class="form-group">
+        <label for="registerRole">I am a</label>
+        <select id="registerRole">
+          <option value="student">Student</option>
+          <option value="tutor">Tutor</option>
+          <option value="parent">Parent</option>
+        </select>
+      </div>
+      <div class="form-footer">
+        <div>
+          <input type="checkbox" id="terms">
+          <label for="terms">I agree to the <a href="#">Terms & Conditions</a></label>
+        </div>
+      </div>
+      <button class="btn btn-primary">Create Account</button>
+      <div class="divider"><span>Or continue with</span></div>
+      <div class="social-login">
+        <button class="social-login-btn"><i class="fab fa-google"></i>Google</button>
+        <button class="social-login-btn"><i class="fab fa-facebook"></i>Facebook</button>
+      </div>
+      <p>Already have an account? <a href="#" id="switchToLogin">Login</a></p>
+    `
   });
 }
+
+// How It Works Overlay Example
+function showHowItWorksOverlay() {
+  createModal({
+    id: 'howItWorksOverlay',
+    title: 'How EduConnect Works',
+    bodyHTML: `
+      <ol>
+        <li><strong>Sign Up:</strong> Create a free account as a student, tutor, or parent.</li>
+        <li><strong>Find a Tutor:</strong> Browse and filter tutors by subject, rating, and availability.</li>
+        <li><strong>Book a Session:</strong> Schedule a session and communicate directly with your tutor.</li>
+        <li><strong>Learn & Succeed:</strong> Join your session, track your progress, and achieve your goals!</li>
+      </ol>
+    `
+  });
+}
+
+// Attach to buttons/links
+const registerBtn = document.getElementById('registerBtn');
+if (registerBtn) registerBtn.onclick = showRegisterModal;
+const howItWorksBtn = document.getElementById('how-it-works');
+if (howItWorksBtn) howItWorksBtn.onclick = function(e) { e.preventDefault(); showHowItWorksOverlay(); };
+
+// Login Modal Example
+function showLoginModal() {
+  createModal({
+    id: 'loginModal',
+    title: 'Login to Your Account',
+    bodyHTML: `
+      <div class="form-group">
+        <label for="loginEmail">Email Address</label>
+        <input type="email" id="loginEmail" placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter your password">
+      </div>
+      <div class="form-footer">
+        <div>
+          <input type="checkbox" id="remember">
+          <label for="remember">Remember me</label>
+        </div>
+        <a href="#">Forgot password?</a>
+      </div>
+      <button class="btn btn-primary">Login</button>
+      <div class="divider"><span>Or continue with</span></div>
+      <div class="social-login">
+        <button class="social-login-btn"><i class="fab fa-google"></i>Google</button>
+        <button class="social-login-btn"><i class="fab fa-facebook"></i>Facebook</button>
+      </div>
+      <p>Don't have an account? <a href="#" id="switchToRegister">Register</a></p>
+    `
+  });
+}
+
+// Attach login modal to login button
+const loginBtn = document.getElementById('loginBtn');
+if (loginBtn) loginBtn.onclick = showLoginModal;
+
+// Example: Dynamically create and insert a modal with JS
+function createLoginModal() {
+  // Only create if not already present
+  if (document.getElementById('loginModal')) return;
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.id = 'loginModal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Login to Your Account</h3>
+        <button class="close-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="loginEmail">Email Address</label>
+          <input type="email" id="loginEmail" placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="Enter your password">
+        </div>
+        <div class="form-footer">
+          <div>
+            <input type="checkbox" id="remember">
+            <label for="remember">Remember me</label>
+          </div>
+          <a href="#">Forgot password?</a>
+        </div>
+        <button class="btn btn-primary">Login</button>
+        <div class="divider">
+          <span>Or continue with</span>
+        </div>
+        <div class="social-login">
+          <button class="social-login-btn">
+            <i class="fab fa-google"></i>
+            Google
+          </button>
+          <button class="social-login-btn">
+            <i class="fab fa-facebook"></i>
+            Facebook
+          </button>
+        </div>
+        <p>Don't have an account? <a href="#" id="switchToRegister">Register</a></p>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+// Usage: createLoginModal();
+// Then you can add event listeners as usual
