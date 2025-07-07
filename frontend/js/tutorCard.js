@@ -1,6 +1,7 @@
 // tutorCard.js
+import { renderStars } from './renderStars.js';
 // Dynamically create a tutor card from an object
-export function createTutorCard(tutor, renderStars) {
+export function createTutorCard(tutor) {
   const card = document.createElement("div");
   card.className = "tutor-card";
   // Use user table fields if available
@@ -15,6 +16,10 @@ export function createTutorCard(tutor, renderStars) {
   } else if (typeof tutor.subjects === 'string') {
     subjects = tutor.subjects.split(',').map(s => s.trim()).filter(Boolean);
   }
+  // Use average_rating from DB if available, fallback to rating/ratingValue
+  const rating = tutor.average_rating !== undefined && tutor.average_rating !== null
+    ? tutor.average_rating
+    : (tutor.rating || tutor.ratingValue || 0);
   card.innerHTML = `
     <div class="tutor-img">
       <img src="${profilePic}" alt="${name}">
@@ -23,8 +28,8 @@ export function createTutorCard(tutor, renderStars) {
       <div class="tutor-header">
         <h3 class="tutor-name">${name}</h3>
         <div class="tutor-rating">
-          ${renderStars(tutor.rating || tutor.ratingValue || 0)}
-          <span>${tutor.ratingValue || tutor.rating || ""}</span>
+          ${renderStars(rating)}
+          <span>${Number(rating).toFixed(1)}</span>
         </div>
       </div>
       <p>${tutor.description || ""}</p>
