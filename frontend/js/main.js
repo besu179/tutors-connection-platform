@@ -96,4 +96,25 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// Populate Top Rated Tutors
+function populateTopRatedTutors() {
+  fetch("http://localhost/tutors-connection-platform/backend/fetchTutors.php?top_rated=1")
+    .then((res) => res.json())
+    .then((data) => {
+      const topRatedContainer = document.getElementById("topRatedTutorsContainer");
+      if (topRatedContainer) {
+        topRatedContainer.innerHTML = '';
+        data.forEach(tutor => {
+          const card = createTutorCard(tutor, renderStars);
+          topRatedContainer.appendChild(card);
+        });
+      }
+    })
+    .catch((err) => {
+      console.error("Error fetching top rated tutors:", err);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", populateTopRatedTutors);
+
 // ...other code for modals, hamburger, etc. should be split into their own files as needed

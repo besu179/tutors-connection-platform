@@ -50,6 +50,7 @@ export function showTutorProfileOverlay(tutor) {
                     <div class="auth-buttons">
                         <button class="btn btn-primary" id="bookSessionBtn">Book Session</button>
                         <button class="btn btn-outline" id="sendMessageBtn">Send Message</button>
+                        <button class="btn btn-secondary" id="mySessionsBtn" style="display:none;">My Sessions</button>
                     </div>
                 </div>
                 <div class="profile-main">
@@ -95,11 +96,20 @@ export function showTutorProfileOverlay(tutor) {
   setTimeout(() => {
     const bookBtn = document.getElementById('bookSessionBtn');
     const msgBtn = document.getElementById('sendMessageBtn');
+    const mySessionsBtn = document.getElementById('mySessionsBtn');
     if (bookBtn) {
       bookBtn.addEventListener('click', () => showBookSessionModal(tutor));
     }
     if (msgBtn) {
       msgBtn.addEventListener('click', () => showMessageModalToTutor(tutor));
+    }
+    // Show My Sessions button for tutors
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    if (mySessionsBtn && user && user.role === 'tutor' && user.user_id === tutor.user_id) {
+      mySessionsBtn.style.display = 'inline-block';
+      import('./sessionsOverlay.js').then(m => {
+        mySessionsBtn.addEventListener('click', m.showSessionsOverlay);
+      });
     }
   }, 200);
 
@@ -142,6 +152,13 @@ function showBookSessionModal(tutor) {
           e.preventDefault();
           const session_date = form.session_date.value;
           const notes = form.notes.value;
+          // Validate session date is not in the past
+          const now = new Date();
+          const selected = new Date(session_date);
+          if (selected < now) {
+            import('../notification.js').then(m => m.showNotification('Session date/time cannot be in the past.', 'warning'));
+            return;
+          }
           try {
             const res = await fetch('http://localhost/tutors-connection-platform/backend/createSession.php', {
               method: 'POST',
@@ -182,26 +199,7 @@ function showMessageModalToTutor(tutor) {
     return;
   }
   import('./messagesOverlay.js').then(m => {
-    m.showMessagesOverlay();
-    setTimeout(() => {
-      // Simulate selecting this tutor in the conversation list
-      const convList = document.getElementById('conversationList');
-      if (convList) {
-        let item = Array.from(convList.querySelectorAll('.conversation-item')).find(li => li.getAttribute('data-userid') == tutor.user_id);
-        if (item) {
-          item.click();
-        } else {
-          // If no conversation exists, create a new one by sending a dummy message
-          const chatInput = document.getElementById('chatInput');
-          const sendBtn = document.getElementById('sendMsgBtn');
-          if (chatInput && sendBtn) {
-            chatInput.value = '';
-            chatInput.disabled = false;
-            sendBtn.disabled = false;
-          }
-        }
-      }
-    }, 500);
+    m.showMessagesOverlay(tutor.user_id);
   });
 }
 
@@ -249,13 +247,14 @@ function showReviewFormIfEligible(tutor_id) {
           <form id="tutorReviewForm">
             <div class="form-group">
               <label>Rating:</label>
-              <span class="review-stars-input">
-                <input type="radio" name="rating" value="5" id="star5"><label for="star5">&#9733;</label>
-                <input type="radio" name="rating" value="4" id="star4"><label for="star4">&#9733;</label>
-                <input type="radio" name="rating" value="3" id="star3"><label for="star3">&#9733;</label>
-                <input type="radio" name="rating" value="2" id="star2"><label for="star2">&#9733;</label>
-                <input type="radio" name="rating" value="1" id="star1"><label for="star1">&#9733;</label>
+              <span class="review-stars-input" id="reviewStarsInput">
+                <i class="far fa-star" data-value="1"></i>
+                <i class="far fa-star" data-value="2"></i>
+                <i class="far fa-star" data-value="3"></i>
+                <i class="far fa-star" data-value="4"></i>
+                <i class="far fa-star" data-value="5"></i>
               </span>
+              <input type="hidden" name="rating" id="reviewRatingValue" required>
             </div>
             <div class="form-group">
               <label for="reviewText">Review:</label>
@@ -265,11 +264,36 @@ function showReviewFormIfEligible(tutor_id) {
           </form>
         `;
         setTimeout(() => {
+          // Star click logic
+          const stars = document.querySelectorAll('#reviewStarsInput i');
+          const ratingInput = document.getElementById('reviewRatingValue');
+          stars.forEach(star => {
+            star.addEventListener('mouseenter', function() {
+              const val = parseInt(this.getAttribute('data-value'));
+              stars.forEach((s, i) => {
+                s.className = i < val ? 'fas fa-star' : 'far fa-star';
+              });
+            });
+            star.addEventListener('mouseleave', function() {
+              const val = parseInt(ratingInput.value) || 0;
+              stars.forEach((s, i) => {
+                s.className = i < val ? 'fas fa-star' : 'far fa-star';
+              });
+            });
+            star.addEventListener('click', function() {
+              const val = parseInt(this.getAttribute('data-value'));
+              ratingInput.value = val;
+              stars.forEach((s, i) => {
+                s.className = i < val ? 'fas fa-star' : 'far fa-star';
+              });
+            });
+          });
+          // Form submit
           const form = document.getElementById('tutorReviewForm');
           if (form) {
             form.addEventListener('submit', async (e) => {
               e.preventDefault();
-              const rating = parseInt(form.rating.value);
+              const rating = parseInt(ratingInput.value);
               const comment = form.comment.value.trim();
               if (!rating || rating < 1 || rating > 5) {
                 import('../notification.js').then(m => m.showNotification('Please select a rating.', 'warning'));

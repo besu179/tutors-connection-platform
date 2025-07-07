@@ -1408,3 +1408,17 @@ textarea {
     padding: 10px;
   }
 }
+
+/* Golden color for rating stars */
+.tutor-rating i,
+.review-stars i,
+.review-stars-input i {
+  color: #ffd700 !important;
+  font-size: 1.2em;
+  transition: color 0.2s;
+}
+
+.review-stars-input i:hover,
+.review-stars-input i.active {
+  color: #ffb300 !important;
+}

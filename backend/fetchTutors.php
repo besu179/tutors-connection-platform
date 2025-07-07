@@ -8,16 +8,21 @@ global $conn;
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $tutor_id = isset($_GET['tutor_id']) ? intval($_GET['tutor_id']) : null;
+    $top_rated = isset($_GET['top_rated']) ? intval($_GET['top_rated']) : 0;
 
     // Main query: join users and tutor_profiles
-    $sql = "SELECT u.*, t.bio, t.education, t.hourly_rate, t.availability
+    $sql = "SELECT u.*, t.bio, t.education, t.hourly_rate, t.availability, r.average_rating, r.total_reviews
             FROM users u
             LEFT JOIN tutor_profiles t ON u.user_id = t.tutor_id
+            LEFT JOIN ratings_summary r ON u.user_id = r.tutor_id
             WHERE u.role = 'tutor'";
     $params = [];
     if ($tutor_id) {
         $sql .= " AND u.user_id = ?";
         $params[] = $tutor_id;
+    }
+    if ($top_rated) {
+        $sql .= " ORDER BY r.average_rating DESC, r.total_reviews DESC LIMIT 3";
     }
     $stmt = $conn->prepare($sql . ($tutor_id ? '' : ''));
     if ($tutor_id) {
