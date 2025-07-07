@@ -28,3 +28,22 @@ export function showHowItWorksOverlay() {
 `,
   });
 }
+
+export function showHowPricingWorksOverlay() {
+  createModal({
+    id: "howPricingWorksOverlay",
+    title: "How Pricing Works",
+    bodyHTML: `
+      <div>
+        <p>
+          Tutors set their own hourly rates. You pay only for the sessions you book—no hidden fees or subscriptions. Payments are securely processed online before each session.
+        </p>
+        <ul>
+          <li><strong>Transparent pricing:</strong> See tutor rates up front.</li>
+          <li><strong>Pay as you go:</strong> Only pay for what you use.</li>
+          <li><strong>Secure checkout:</strong> All payments are protected.</li>
+        </ul>
+      </div>
+    `,
+  });
+}
